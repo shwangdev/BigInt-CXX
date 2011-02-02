@@ -1,0 +1,13 @@
+This is a BigInteger class implementation in c/asm with inline assembler C++
+
+Tools:
+* Make
+* gcc
+
+TODO:
+* rewrite old version using inline asm and(or) SIMD (libsimd?)
+* write tests for correctness and benchmarking
+* provide clean interface to c++
+* keep it cross-platform (Windows: mingw only)
+
+Licensed under BSD-3, see Copying
