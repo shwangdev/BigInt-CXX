@@ -1,51 +1,54 @@
 #ifndef BIGINT_H
 #define BIGINT_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <time.h>
 
-Class BigInt {
+#define BASE unsigned char
+#define DOUBLEBASE unsigned short
 
-public:
-	BigInt(const char * );
-	BigInt(const BigInt & );
-	BigInt (unsigned int );
-	BigInt (int size, int type)
-	BigInt(int );
-	BigInt ();
-	~BigInt();
-	
-	BigInt operator = (const BigInt & );
-	
-	/* Arithemtics */
-	BigInt operator + (const BigInt );
-	BigInt operator * (const BigInt & );
-	BigInt operator - (const BigInt & );
-	BigInt operator / (const BigInt & )
-	BigInt operator % (const BigInt & ); 
-	
-	/* Comparation */
-	bool BigInt operator == (const BigInt & ) const;
-	bool BigInt operator < (const BigInt & ) const;
-	bool BigInt operator <= (const BigInt & ) const;
-	bool BigInt operator > (const BigInt & ) const;
-	bool BigInt operator >= (const BigInt & ) const;
-	bool BigInt operator != (const BigInt & ) const;
-	
+const int yet=sizeof(BASE)*8;
+const DOUBLEBASE pz=1<<yet;
 
-private:
-    BASE * GetMem (int size);
-    void FreeMem (void);
-    int Size (void) const;
-    int SizeZ (void) const;
-    void Normalize (void);
-    void PrintHex (const char * name = "");
-    void PrintDec (const char * name = "");
-    BASE add(BASE * , BASE * , BASE * , BASE * , BASE * );
-    void mul(BASE * , BASE * , BASE * , BASE * , BASE * );
-    int sub(BASE * , BASE * , BASE * , BASE * , BASE * );
-    BigInt divb(const BASE , BASE & );
-    BigInt div(BigInt u, BigInt v, BigInt & );
-    BigInt divrm(BASE *, BASE *,BASE v,BASE & );
-    
+class bigint
+{
+	private:
+	BASE *pLow, *pHigh, *pAll;//*pLow - младший  разряд, *pHigh - старший значимый разряд, *pAll - самый последний разряд
+
+	BASE* get_memory(int );
+	void normalize();
+
+	public:
+	bigint();
+	int Size() const;
+	int SizeZ() const;
+	bigint (int , int );
+	bigint (const char* );
+	bigint (unsigned int );
+	void imul(BASE* , BASE* , BASE* , BASE* ,BASE*);
+	BASE add(BASE* , BASE* , BASE* , BASE* ,BASE*);
+	int sub(BASE * , BASE * , BASE * , BASE * , BASE * );
+	void PrintHex();
+	bigint(const bigint &);
+	bigint operator = (const bigint &);
+	~bigint();
+	bigint operator + (const bigint &);
+	bigint operator - (const bigint & );
+	bigint operator *(const bigint & b);
+	bigint div_BASE(BASE * ,BASE * ,BASE  ,BASE & );
+	bigint div(bigint ,bigint ,bigint &);
+	bigint operator / (bigint &);
+	bool operator == (const bigint &) const;
+	bigint operator % ( bigint &);
+	bool operator < (const bigint & ) const;
+	bool operator <= (const bigint & ) const;
+	bool operator > (const bigint & ) const;
+	bool operator >= (const bigint & ) const;
+	bool operator != (const bigint & ) const;
 
 };
 
 #endif
+
+
